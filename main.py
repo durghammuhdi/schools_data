@@ -163,7 +163,7 @@ def main(page: ft.Page):
 
   txt_search_school = ft.TextField(
       label="تصفية حسب المدرسة...",
-      width=220,
+      width=200,
       prefix_icon=ft.Icons.SEARCH,
       text_align=ft.TextAlign.RIGHT,
   )
@@ -171,7 +171,7 @@ def main(page: ft.Page):
 
   filter_dropdown = ft.Dropdown(
       label="تصفية حسب الاختصاص",
-      width=220,
+      width=200,
       value="الكل",
       options=[
           ft.dropdown.Option("الكل"),
@@ -186,13 +186,10 @@ def main(page: ft.Page):
   def export_data_to_file(e):
     try:
       if platform.system() == "Android":
-        export_path = os.path.join(
-            "/data/user/0/com.example.supervisor_app/files", EXPORT_FILENAME
-        )
+        # استخدام مجلد الملفات الداخلي المتاح للاستخدام في التطبيق دون مشاكل صلاحيات
+        export_path = os.path.join(page.get_app_doc_dir(), EXPORT_FILENAME)
       else:
         export_path = EXPORT_FILENAME
-
-      os.makedirs(os.path.dirname(export_path), exist_ok=True)
 
       records = load_records()
       with open(export_path, mode="w", newline="", encoding="utf-8-sig") as file:
@@ -207,7 +204,7 @@ def main(page: ft.Page):
         ])
         writer.writerows(records)
 
-      status_label.value = f"تم التصدير بنجاح: {export_path}"
+      status_label.value = f"تم التصدير بنجاح في: {export_path}"
       status_label.color = "green"
     except Exception as ex:
       status_label.value = f"حدث خطأ أثناء التصدير: {str(ex)}"
@@ -416,10 +413,12 @@ def main(page: ft.Page):
                           controls=[
                               ft.Row(
                                   [
-                                      ft.Row([
-                                          filter_dropdown,
-                                          txt_search_school,
-                                      ]),
+                                      # تم إضافة wrap=True وتصغير العرض لمنع الاختفاء الجانبي
+                                      ft.Row(
+                                          [txt_search_school, filter_dropdown],
+                                          wrap=True,
+                                          alignment=ft.MainAxisAlignment.END,
+                                      ),
                                       ft.Text(
                                           "جدول المدارس المحفوظة",
                                           size=18,
@@ -428,7 +427,9 @@ def main(page: ft.Page):
                                       ),
                                   ],
                                   alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                                  wrap=True,
                               ),
+                              ft.Divider(height=10, color="transparent"),
                               ft.Row(
                                   [data_table],
                                   alignment=ft.MainAxisAlignment.END,
