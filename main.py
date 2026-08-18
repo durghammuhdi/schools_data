@@ -50,10 +50,11 @@ def main(page: ft.Page):
       ])
       writer.writerows(records)
 
-  card_total = ft.Text("0", size=22, weight=ft.FontWeight.BOLD, color="blue")
-  card_vacant = ft.Text("0", size=22, weight=ft.FontWeight.BOLD, color="red")
+  # تصغير حجم النصوص داخل البطاقات
+  card_total = ft.Text("0", size=18, weight=ft.FontWeight.BOLD, color="blue")
+  card_vacant = ft.Text("0", size=18, weight=ft.FontWeight.BOLD, color="red")
   card_surplus = ft.Text(
-      "0", size=22, weight=ft.FontWeight.BOLD, color="orange"
+      "0", size=18, weight=ft.FontWeight.BOLD, color="orange"
   )
 
   status_label = ft.Text(value="", color="green", size=14)
@@ -186,7 +187,6 @@ def main(page: ft.Page):
   def export_data_to_file(e):
     try:
       if platform.system() == "Android":
-        # استخدام مجلد التخزين المؤقت المتاح للكتابة المباشرة على أندرويد دون مشاكل صلاحيات
         export_path = os.path.join(os.getcwd(), EXPORT_FILENAME)
       else:
         export_path = EXPORT_FILENAME
@@ -304,20 +304,21 @@ def main(page: ft.Page):
       color="green",
   )
 
+  # تصغير حجم البطاقات وعرضها ليناسب الشاشة تماماً
   def make_stat_card(title, value_widget, icon_name, icon_color):
     return ft.Card(
         elevation=2,
         content=ft.Container(
-            padding=15,
-            width=200,
+            padding=10,
+            width=115,
             content=ft.Row(
                 alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                 controls=[
-                    ft.Icon(icon_name, color=icon_color, size=30),
+                    ft.Icon(icon_name, color=icon_color, size=22),
                     ft.Column(
                         horizontal_alignment=ft.CrossAxisAlignment.END,
                         controls=[
-                            ft.Text(title, size=12, color="gray"),
+                            ft.Text(title, size=10, color="gray"),
                             value_widget,
                         ],
                     ),
@@ -358,7 +359,8 @@ def main(page: ft.Page):
           end=ft.Alignment(1, 1),
           colors=["#eef2f3", "#8e9eab"],
       ),
-      padding=25,
+      # إضافة مساحة علوية آمنة لتفادي تداخل شريط الإشعارات مع اسم التطبيق
+      padding=ft.padding.only(top=40, left=15, right=15, bottom=15),
       content=ft.Column(
           scroll=ft.ScrollMode.AUTO,
           alignment=ft.MainAxisAlignment.START,
@@ -366,11 +368,12 @@ def main(page: ft.Page):
           controls=[
               ft.Row(
                   alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                  wrap=True,
                   controls=[
                       btn_export,
                       ft.Text(
                           "نظام الإشراف التربوي - إدارات المدارس",
-                          size=24,
+                          size=18,
                           weight=ft.FontWeight.BOLD,
                           color="#1e293b",
                       ),
