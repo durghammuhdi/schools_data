@@ -10,7 +10,7 @@ EXPORT_FILENAME = "تقرير_الإشراف_التربوي.csv"
 def main(page: ft.Page):
   page.title = "نظام الإشراف التربوي - إدارات المدارس"
   page.theme_mode = ft.ThemeMode.LIGHT
-  page.padding = 0
+  page.padding = 15  # هوامش عامة آمنة للصفحة بالكامل
 
   editing_index = [-1]
 
@@ -50,7 +50,6 @@ def main(page: ft.Page):
       ])
       writer.writerows(records)
 
-  # تصغير حجم النصوص داخل البطاقات
   card_total = ft.Text("0", size=18, weight=ft.FontWeight.BOLD, color="blue")
   card_vacant = ft.Text("0", size=18, weight=ft.FontWeight.BOLD, color="red")
   card_surplus = ft.Text(
@@ -304,21 +303,20 @@ def main(page: ft.Page):
       color="green",
   )
 
-  # تصغير حجم البطاقات وعرضها ليناسب الشاشة تماماً
   def make_stat_card(title, value_widget, icon_name, icon_color):
     return ft.Card(
         elevation=2,
         content=ft.Container(
             padding=10,
-            width=115,
+            width=110,
             content=ft.Row(
                 alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                 controls=[
-                    ft.Icon(icon_name, color=icon_color, size=22),
+                    ft.Icon(icon_name, color=icon_color, size=20),
                     ft.Column(
                         horizontal_alignment=ft.CrossAxisAlignment.END,
                         controls=[
-                            ft.Text(title, size=10, color="gray"),
+                            ft.Text(title, size=9, color="gray"),
                             value_widget,
                         ],
                     ),
@@ -359,13 +357,14 @@ def main(page: ft.Page):
           end=ft.Alignment(1, 1),
           colors=["#eef2f3", "#8e9eab"],
       ),
-      # إضافة مساحة علوية آمنة لتفادي تداخل شريط الإشعارات مع اسم التطبيق
-      padding=ft.padding.only(top=40, left=15, right=15, bottom=15),
+      padding=10,
       content=ft.Column(
           scroll=ft.ScrollMode.AUTO,
           alignment=ft.MainAxisAlignment.START,
           horizontal_alignment=ft.CrossAxisAlignment.END,
           controls=[
+              # مسافة علوية بديلة تمنع تداخل اسم التطبيق مع شريط الهاتف
+              ft.Divider(height=25, color="transparent"),
               ft.Row(
                   alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                   wrap=True,
@@ -373,19 +372,19 @@ def main(page: ft.Page):
                       btn_export,
                       ft.Text(
                           "نظام الإشراف التربوي - إدارات المدارس",
-                          size=18,
+                          size=17,
                           weight=ft.FontWeight.BOLD,
                           color="#1e293b",
                       ),
                   ],
               ),
-              ft.Divider(height=15, color="transparent"),
+              ft.Divider(height=10, color="transparent"),
               stats_row,
-              ft.Divider(height=15, color="transparent"),
+              ft.Divider(height=10, color="transparent"),
               ft.Card(
                   elevation=3,
                   content=ft.Container(
-                      padding=20,
+                      padding=15,
                       border_radius=10,
                       content=ft.Column(
                           horizontal_alignment=ft.CrossAxisAlignment.END,
@@ -405,11 +404,11 @@ def main(page: ft.Page):
                       ),
                   ),
               ),
-              ft.Divider(height=15, color="transparent"),
+              ft.Divider(height=10, color="transparent"),
               ft.Card(
                   elevation=3,
                   content=ft.Container(
-                      padding=20,
+                      padding=15,
                       border_radius=10,
                       content=ft.Column(
                           horizontal_alignment=ft.CrossAxisAlignment.END,
@@ -423,7 +422,7 @@ def main(page: ft.Page):
                                       ),
                                       ft.Text(
                                           "جدول المدارس المحفوظة",
-                                          size=18,
+                                          size=16,
                                           weight=ft.FontWeight.BOLD,
                                           color="#334155",
                                       ),
@@ -441,7 +440,7 @@ def main(page: ft.Page):
                       ),
                   ),
               ),
-              ft.Divider(height=15, color="transparent"),
+              ft.Divider(height=10, color="transparent"),
               footer_section,
           ],
       ),
