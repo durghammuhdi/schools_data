@@ -186,8 +186,8 @@ def main(page: ft.Page):
   def export_data_to_file(e):
     try:
       if platform.system() == "Android":
-        # استخدام مجلد الملفات الداخلي المتاح للاستخدام في التطبيق دون مشاكل صلاحيات
-        export_path = os.path.join(page.get_app_doc_dir(), EXPORT_FILENAME)
+        # استخدام مجلد التخزين المؤقت المتاح للكتابة المباشرة على أندرويد دون مشاكل صلاحيات
+        export_path = os.path.join(os.getcwd(), EXPORT_FILENAME)
       else:
         export_path = EXPORT_FILENAME
 
@@ -204,7 +204,7 @@ def main(page: ft.Page):
         ])
         writer.writerows(records)
 
-      status_label.value = f"تم التصدير بنجاح في: {export_path}"
+      status_label.value = f"تم التصدير بنجاح: {export_path}"
       status_label.color = "green"
     except Exception as ex:
       status_label.value = f"حدث خطأ أثناء التصدير: {str(ex)}"
@@ -413,7 +413,6 @@ def main(page: ft.Page):
                           controls=[
                               ft.Row(
                                   [
-                                      # تم إضافة wrap=True وتصغير العرض لمنع الاختفاء الجانبي
                                       ft.Row(
                                           [txt_search_school, filter_dropdown],
                                           wrap=True,
