@@ -1,5 +1,6 @@
 import csv
 import os
+import platform
 import flet as ft
 
 FILENAME = "schools_data.csv"
@@ -182,38 +183,36 @@ def main(page: ft.Page):
   )
   filter_dropdown.on_change = refresh_table
 
-  def save_file_result(e: ft.FilePickerResultEvent):
-    if e.path:
-      records = load_records()
-      try:
-        with open(e.path, mode="w", newline="", encoding="utf-8-sig") as file:
-          writer = csv.writer(file)
-          writer.writerow([
-              "المدرسة",
-              "الاختصاص",
-              "الملاك المطلوب",
-              "العدد الحالي",
-              "الحالة",
-              "الفرق",
-          ])
-          writer.writerows(records)
-        status_label.value = f"تم تصدير التقرير بنجاح إلى: {e.path}"
-        status_label.color = "green"
-      except Exception as ex:
-        status_label.value = f"حدث خطأ أثناء التصدير: {str(ex)}"
-        status_label.color = "red"
-      page.update()
-
-  file_picker = ft.FilePicker()
-  file_picker.on_result = save_file_result
-  page.overlay.append(file_picker)
-
   def export_data_to_file(e):
-    file_picker.save_file(
-        dialog_title="حفظ تقرير الإشراف التربوي",
-        file_name=EXPORT_FILENAME,
-        allowed_extensions=["csv"],
-    )
+    try:
+      if platform.system() == "Android":
+        export_path = os.path.join(
+            "/data/user/0/com.example.supervisor_app/files", EXPORT_FILENAME
+        )
+      else:
+        export_path = EXPORT_FILENAME
+
+      os.makedirs(os.path.dirname(export_path), exist_ok=True)
+
+      records = load_records()
+      with open(export_path, mode="w", newline="", encoding="utf-8-sig") as file:
+        writer = csv.writer(file)
+        writer.writerow([
+            "المدرسة",
+            "الاختصاص",
+            "الملاك المطلوب",
+            "العدد الحالي",
+            "الحالة",
+            "الفرق",
+        ])
+        writer.writerows(records)
+
+      status_label.value = f"تم التصدير بنجاح: {export_path}"
+      status_label.color = "green"
+    except Exception as ex:
+      status_label.value = f"حدث خطأ أثناء التصدير: {str(ex)}"
+      status_label.color = "red"
+    page.update()
 
   def start_edit(index, row_data):
     editing_index[0] = index
