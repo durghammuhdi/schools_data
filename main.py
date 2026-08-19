@@ -770,8 +770,8 @@ def main(page: ft.Page):
         alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
         controls=[
             ft.Text(
-                "برمجة وتطوير: ضرغام مهدي صلال",
-                size=14,
+                "الاختصاصي التربوي: ضرغام مهدي",
+                size=10,
                 color="#334155",
                 weight=ft.FontWeight.BOLD,
             ),
@@ -822,8 +822,8 @@ def main(page: ft.Page):
                     alignment=ft.Alignment(1, 0),
                     padding=ft.Padding(0, 4, 0, 4),
                     content=ft.Text(
-                        "برمجة وتطوير: ضرغام مهدي صلال",
-                        size=15,
+                        "الاختصاصي التربوي: ضرغام مهدي",
+                        size=12,
                         weight=ft.FontWeight.BOLD,
                         color="#2563eb",
                     ),
