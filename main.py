@@ -511,6 +511,7 @@ def main(page: ft.Page):
         records = load_records()
 
         try:
+            import io
             from openpyxl import Workbook
             from openpyxl.styles import Font, PatternFill, Alignment
         except ImportError:
@@ -522,19 +523,6 @@ def main(page: ft.Page):
             return
 
         try:
-            saved_path = await file_picker.save_file(
-                dialog_title="حفظ تقرير Excel",
-                file_name="تقرير_الإشراف_التربوي.xlsx",
-                file_type=ft.FilePickerFileType.CUSTOM,
-                allowed_extensions=["xlsx"],
-            )
-
-            if not saved_path:
-                status_label.value = "تم إلغاء عملية التصدير."
-                status_label.color = "orange"
-                page.update()
-                return
-
             workbook = Workbook()
             worksheet = workbook.active
             worksheet.title = "تقرير الإشراف"
@@ -566,10 +554,28 @@ def main(page: ft.Page):
                     35,
                 )
 
-            workbook.save(saved_path)
+            # حفظ الملف في الذاكرة أولاً حتى يعمل FilePicker على الهاتف
+            # وإصدار الويب، حيث يتطلب src_bytes.
+            output = io.BytesIO()
+            workbook.save(output)
+            excel_bytes = output.getvalue()
 
-            status_label.value = f"تم تصدير تقرير Excel بنجاح إلى: {saved_path}"
-            status_label.color = "green"
+            saved_path = await file_picker.save_file(
+                dialog_title="حفظ تقرير Excel",
+                file_name="تقرير_الإشراف_التربوي.xlsx",
+                file_type=ft.FilePickerFileType.CUSTOM,
+                allowed_extensions=["xlsx"],
+                src_bytes=excel_bytes,
+            )
+
+            if saved_path:
+                status_label.value = (
+                    f"تم تصدير تقرير Excel بنجاح إلى: {saved_path}"
+                )
+                status_label.color = "green"
+            else:
+                status_label.value = "تم إلغاء عملية التصدير."
+                status_label.color = "orange"
 
         except Exception as ex:
             status_label.value = f"حدث خطأ أثناء تصدير Excel: {str(ex)}"
