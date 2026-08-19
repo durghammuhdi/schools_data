@@ -151,6 +151,7 @@ def main(page: ft.Page):
         width=170,
         value="الكل",
         options=[ft.dropdown.Option("الكل")],
+        text_align=ft.TextAlign.RIGHT,
         on_select=lambda e: refresh_table(),
     )
 
@@ -165,6 +166,7 @@ def main(page: ft.Page):
             ft.dropdown.Option("فيض"),
             ft.dropdown.Option("مكتمل"),
         ],
+        text_align=ft.TextAlign.RIGHT,
         on_select=lambda e: refresh_table(),
     )
 
@@ -219,17 +221,19 @@ def main(page: ft.Page):
     # جدول البيانات
     data_table = ft.DataTable(
         columns=[
-            ft.DataColumn(ft.Text("إجراءات", weight=ft.FontWeight.BOLD)),
-            ft.DataColumn(ft.Text("الفرق", weight=ft.FontWeight.BOLD)),
-            ft.DataColumn(ft.Text("الحالة", weight=ft.FontWeight.BOLD)),
-            ft.DataColumn(ft.Text("الحالي", weight=ft.FontWeight.BOLD)),
-            ft.DataColumn(ft.Text("الملاك", weight=ft.FontWeight.BOLD)),
-            ft.DataColumn(ft.Text("الاختصاص", weight=ft.FontWeight.BOLD)),
-            ft.DataColumn(ft.Text("القضاء", weight=ft.FontWeight.BOLD)),
-            ft.DataColumn(ft.Text("المرحلة", weight=ft.FontWeight.BOLD)),
-            ft.DataColumn(ft.Text("الملاحظات", weight=ft.FontWeight.BOLD)),
-            ft.DataColumn(ft.Text("مدرّسو المادة", weight=ft.FontWeight.BOLD)),
-            ft.DataColumn(ft.Text("المدرسة", weight=ft.FontWeight.BOLD)),
+            # ترتيب الأعمدة منطقي من اليمين إلى اليسار.
+            # وبما أن page.rtl = True فإن المدرسة تظهر في أقصى اليمين.
+            ft.DataColumn(ft.Text("المدرسة", weight=ft.FontWeight.BOLD, text_align=ft.TextAlign.RIGHT)),
+            ft.DataColumn(ft.Text("الاختصاص", weight=ft.FontWeight.BOLD, text_align=ft.TextAlign.RIGHT)),
+            ft.DataColumn(ft.Text("الملاك", weight=ft.FontWeight.BOLD, text_align=ft.TextAlign.RIGHT)),
+            ft.DataColumn(ft.Text("الحالي", weight=ft.FontWeight.BOLD, text_align=ft.TextAlign.RIGHT)),
+            ft.DataColumn(ft.Text("الحالة", weight=ft.FontWeight.BOLD, text_align=ft.TextAlign.RIGHT)),
+            ft.DataColumn(ft.Text("الفرق", weight=ft.FontWeight.BOLD, text_align=ft.TextAlign.RIGHT)),
+            ft.DataColumn(ft.Text("القضاء", weight=ft.FontWeight.BOLD, text_align=ft.TextAlign.RIGHT)),
+            ft.DataColumn(ft.Text("المرحلة", weight=ft.FontWeight.BOLD, text_align=ft.TextAlign.RIGHT)),
+            ft.DataColumn(ft.Text("الملاحظات", weight=ft.FontWeight.BOLD, text_align=ft.TextAlign.RIGHT)),
+            ft.DataColumn(ft.Text("مدرّسو المادة", weight=ft.FontWeight.BOLD, text_align=ft.TextAlign.RIGHT)),
+            ft.DataColumn(ft.Text("إجراءات", weight=ft.FontWeight.BOLD, text_align=ft.TextAlign.RIGHT)),
         ],
         rows=[],
     )
@@ -301,6 +305,16 @@ def main(page: ft.Page):
             data_table.rows.append(
                 ft.DataRow(
                     cells=[
+                        ft.DataCell(ft.Text(row[0], text_align=ft.TextAlign.RIGHT)),
+                        ft.DataCell(ft.Text(row[1], text_align=ft.TextAlign.RIGHT)),
+                        ft.DataCell(ft.Text(row[2], text_align=ft.TextAlign.RIGHT)),
+                        ft.DataCell(ft.Text(row[3], text_align=ft.TextAlign.RIGHT)),
+                        ft.DataCell(ft.Text(row[4], text_align=ft.TextAlign.RIGHT)),
+                        ft.DataCell(ft.Text(row[5], text_align=ft.TextAlign.RIGHT)),
+                        ft.DataCell(ft.Text(row[6], text_align=ft.TextAlign.RIGHT)),
+                        ft.DataCell(ft.Text(row[7], text_align=ft.TextAlign.RIGHT)),
+                        ft.DataCell(ft.Text(row[8], text_align=ft.TextAlign.RIGHT)),
+                        ft.DataCell(ft.Text(row[9], text_align=ft.TextAlign.RIGHT)),
                         ft.DataCell(
                             ft.Row(
                                 controls=[
@@ -322,16 +336,6 @@ def main(page: ft.Page):
                                 alignment=ft.MainAxisAlignment.END,
                             )
                         ),
-                        ft.DataCell(ft.Text(row[5])),
-                        ft.DataCell(ft.Text(row[4])),
-                        ft.DataCell(ft.Text(row[3])),
-                        ft.DataCell(ft.Text(row[2])),
-                        ft.DataCell(ft.Text(row[1])),
-                        ft.DataCell(ft.Text(row[6])),
-                        ft.DataCell(ft.Text(row[7])),
-                        ft.DataCell(ft.Text(row[8])),
-                        ft.DataCell(ft.Text(row[9])),
-                        ft.DataCell(ft.Text(row[0])),
                     ]
                 )
             )
