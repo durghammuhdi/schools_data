@@ -85,37 +85,37 @@ def main(page: ft.Page):
     # حقول الإدخال
     txt_school = ft.TextField(
         label="اسم المدرسة",
-        width=240,
+        width=190,
         text_align=ft.TextAlign.RIGHT,
     )
 
     txt_spec = ft.TextField(
         label="الاختصاص",
-        width=220,
+        width=190,
         text_align=ft.TextAlign.RIGHT,
     )
 
     txt_district = ft.TextField(
         label="القضاء",
-        width=180,
+        width=160,
         text_align=ft.TextAlign.RIGHT,
     )
 
     txt_stage = ft.TextField(
         label="المرحلة الدراسية",
-        width=180,
+        width=160,
         text_align=ft.TextAlign.RIGHT,
     )
 
     txt_notes = ft.TextField(
         label="الملاحظات",
-        width=240,
+        width=190,
         text_align=ft.TextAlign.RIGHT,
     )
 
     txt_teachers = ft.TextField(
         label="أسماء مدرّسي المادة",
-        width=280,
+        width=220,
         text_align=ft.TextAlign.RIGHT,
     )
 
@@ -139,7 +139,7 @@ def main(page: ft.Page):
 
     txt_search_school = ft.TextField(
         label="تصفية حسب المدرسة...",
-        width=220,
+        width=180,
         prefix_icon=ft.Icons.SEARCH,
         text_align=ft.TextAlign.RIGHT,
         on_change=lambda e: refresh_table(),
@@ -148,7 +148,7 @@ def main(page: ft.Page):
     # يتم تحديث الخيارات تلقائياً من الاختصاصات الموجودة في ملف البيانات
     filter_dropdown = ft.Dropdown(
         label="تصفية حسب الاختصاص",
-        width=220,
+        width=170,
         value="الكل",
         options=[ft.dropdown.Option("الكل")],
         on_select=lambda e: refresh_table(),
@@ -157,7 +157,7 @@ def main(page: ft.Page):
     # فلتر الحالة
     status_filter = ft.Dropdown(
         label="تصفية حسب الحالة",
-        width=190,
+        width=170,
         value="الكل",
         options=[
             ft.dropdown.Option("الكل"),
@@ -788,6 +788,7 @@ def main(page: ft.Page):
             controls=[
                 ft.Row(
                     alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                     wrap=True,
                     controls=[
                          ft.Row(
                              controls=[
@@ -795,12 +796,14 @@ def main(page: ft.Page):
                                  btn_export,
                              ],
                              spacing=8,
+                             wrap=True,
                          ),
                         ft.Text(
                             "نظام الإشراف التربوي - إدارات المدارس",
-                            size=24,
+                             size=20,
                             weight=ft.FontWeight.BOLD,
                             color="#1e293b",
+                             text_align=ft.TextAlign.RIGHT,
                         ),
                     ],
                 ),
@@ -902,6 +905,7 @@ def main(page: ft.Page):
                                             ],
                                             spacing=8,
                                             wrap=True,
+                                            alignment=ft.MainAxisAlignment.END,
                                         ),
                                         ft.Text(
                                             "جدول المدارس المحفوظة",
@@ -912,6 +916,7 @@ def main(page: ft.Page):
                                     ],
                                     alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                                     vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                                    wrap=True,
                                 ),
 
                                 ft.Row(
